@@ -1,5 +1,7 @@
 package com.daftmobile.android4beginners3
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -13,5 +15,10 @@ class InputActivity : AppCompatActivity() {
         addButton.setOnClickListener(this::setResultAndFinish)
     }
 
-    private fun setResultAndFinish(view: View) = Unit
+    private fun setResultAndFinish(view: View){
+        val intent = Intent().putExtra("resultKey", addInput.text.toString())
+        this.setResult(Activity.RESULT_OK, intent)
+        this.finish()
+    } //= Unit
+
 }
