@@ -6,4 +6,5 @@ interface RobotsViewModel {
 
     fun getRobotList(): LiveData<String>
     fun addRobot()
+    fun sortRobotList(ascending: Boolean)
 }
