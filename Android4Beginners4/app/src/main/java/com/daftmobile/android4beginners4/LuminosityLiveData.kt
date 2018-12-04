@@ -23,7 +23,7 @@ class LuminosityLiveData(private val sensorManager: SensorManager): MutableLiveD
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) = Unit
 
         override fun onSensorChanged(event: SensorEvent) {
-            value = Luminosity(event.values[0])
+            value = Luminosity(event.values[0]) //postValue (na głównym wątku), setValue (na wątku wywołującym) publiczne, kotlin zamienia na value
         }
     }
 }

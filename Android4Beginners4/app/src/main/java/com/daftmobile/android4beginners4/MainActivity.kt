@@ -6,8 +6,10 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.hardware.SensorManager.SENSOR_DELAY_UI
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,8 +22,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val liveData = LuminosityLiveData(sensorManager)
+        liveData.observe(this, Observer(this::updateView)) //updateView dostaje luminosity, bo takiego typu jest liveData
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
     }
+
+//    override fun onStart() {
+//        super.onStart()
+//        sensorManager.registerListener(listener, sensor, SENSOR_DELAY_UI)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        sensorManager.unregisterListener(listener) //bardzo ważne! zwalnia pamięć.
+//    }
 
     private fun updateView(luminosity: Luminosity?) {
         if (luminosity == null) return
@@ -30,12 +44,13 @@ class MainActivity : AppCompatActivity() {
         colorView.setBackgroundColor(background)
     }
 
-    private val listener = object : SensorEventListener {
-        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
-
-        override fun onSensorChanged(event: SensorEvent) {
-            val luminosity = Luminosity(event.values[0])
-            updateView(luminosity)
-        }
-    }
+//    private val listener = object : SensorEventListener {
+//        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
+//
+//        override fun onSensorChanged(event: SensorEvent) {
+//
+//            val luminosity = Luminosity(event.values[0])
+//            updateView(luminosity)
+//        }
+//    }
 }
