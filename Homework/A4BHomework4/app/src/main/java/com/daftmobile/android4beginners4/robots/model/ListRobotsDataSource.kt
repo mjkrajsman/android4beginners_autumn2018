@@ -5,8 +5,15 @@ import android.os.Build
 
 class ListRobotsDataSource: RobotsDataSource {
     private val robots = mutableListOf<Robot>()
+    private var order = true
 
     override fun getRobots() = robots.toMutableList()
+
+    override fun getListOrder(): Boolean = order
+
+    override fun setListOrder(ascending: Boolean) {
+        order = ascending
+    }
 
     override fun addNew(robot: Robot) {
         robots.add(robot)
@@ -35,4 +42,8 @@ class ListRobotsDataSource: RobotsDataSource {
             }
         }
     }
+
+
+
+
 }

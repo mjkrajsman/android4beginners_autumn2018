@@ -13,6 +13,13 @@ class LiveDataRobotsViewModel: RobotsViewModel, ViewModel() {
     }
 
     private val mutableLiveData: MutableLiveData<MutableList<Robot>> = MutableLiveData()
+    override fun setOrder(ascending: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getOrder(): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getRobotList(): LiveData<String> = Transformations.map(mutableLiveData) { list: List<Robot>? -> list.toString() }
 

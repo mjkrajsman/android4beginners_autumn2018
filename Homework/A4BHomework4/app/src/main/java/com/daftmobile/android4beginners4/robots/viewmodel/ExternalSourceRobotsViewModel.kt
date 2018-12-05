@@ -10,10 +10,17 @@ class ExternalSourceRobotsViewModel(
         private val robotDataSource: RobotsDataSource = ListRobotsDataSource()
 ): ViewModel(), RobotsViewModel {
 
-
     private val mutableLiveData: MutableLiveData<String> = MutableLiveData()
 
     override fun getRobotList(): LiveData<String> = mutableLiveData
+
+    override fun getOrder(): Boolean {
+        return robotDataSource.getListOrder()
+    }
+    override fun setOrder(ascending: Boolean) {
+        sortRobotList(ascending)
+        robotDataSource.setListOrder(ascending)
+    }
 
     override fun addRobot() {
         robotDataSource.addNew()
@@ -29,6 +36,8 @@ class ExternalSourceRobotsViewModel(
         }
         mutableLiveData.value = robotDataSource.getRobots().joinToString(separator = "\n")//toString()
     }
+
+
 }
 //class ExternalSourceRobotsViewModel: ViewModel(), RobotsViewModel {
 //
