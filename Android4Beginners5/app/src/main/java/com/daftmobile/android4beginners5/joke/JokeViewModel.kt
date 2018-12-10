@@ -17,7 +17,7 @@ class JokeViewModel: ViewModel() {
     fun loaderVisible(): LiveData<Boolean> = loaderVisibleData
 
     fun call() {
-        // TODO
+        fetchDataFromApi()
     }
 
     private fun doSomeThreading() {
@@ -33,7 +33,7 @@ class JokeViewModel: ViewModel() {
         jokeDataSource.fetch({
             responseLiveData.setValue(it)
         }, {
-
+            errorLiveData.value = it
         })
     }
 }

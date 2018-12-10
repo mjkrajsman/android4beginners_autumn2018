@@ -1,5 +1,6 @@
 package com.daftmobile.android4beginners5.vending
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -19,7 +20,9 @@ class VendingActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
-        // TODO Implement
+        viewModel.chocoBarVended().observe(this, Observer { showVendedDialog(it) })
+        viewModel.vendingError().observe(this, Observer { showVendingErrorDialog(it) })
+        viewModel.deposit().observe(this, Observer { updateDeposit(it) })
     }
 
     private fun setupClickListeners() {

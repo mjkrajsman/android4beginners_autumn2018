@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.daftmobile.android4beginners5.SingleLiveEvent
+import java.lang.Exception
 
 class VendingViewModel: ViewModel() {
     private val vendingMachine = ChocoBarVendingMachine()
@@ -25,9 +26,21 @@ class VendingViewModel: ViewModel() {
     }
 
     fun vend(barName: String) {
-        val bar = vendingMachine.vend(barName)
-        chocoBarLiveData.value = "You vended ${bar.name}"
-        refreshDeposit()
+        try {
+            val bar = vendingMachine.vend(barName)
+            chocoBarLiveData.value = "You vended ${bar.name}"
+            refreshDeposit()
+        }catch(e: ItemNotFoundException){
+            errorLiveData.value = "${e.itemName} not found!"
+        }catch(e: OutOfStockException){
+            errorLiveData.value = "No ${e.barName} left!"
+        }catch(e: InsufficientFundsException){
+            errorLiveData.value = "Insufficient funds!"
+        }catch(e: Exception){
+            errorLiveData.value = e.message
+        }finally{
+            //optional
+        }
     }
 
     private fun refreshDeposit() {

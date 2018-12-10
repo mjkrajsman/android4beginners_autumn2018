@@ -17,12 +17,14 @@ class JokeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_joke)
         observeResponses()
+        observeErrors()
 
         callButton.setOnClickListener {
 //            Thread {
 //                Thread.sleep(5000)
 //                log("I woke up")
 //            }.start()
+            jokeViewModel.call()
         }
     }
 
