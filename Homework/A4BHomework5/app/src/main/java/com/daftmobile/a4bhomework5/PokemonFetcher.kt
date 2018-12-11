@@ -1,8 +1,6 @@
 package com.daftmobile.a4bhomework5
 
-import android.provider.Settings
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,46 +13,28 @@ class PokemonFetcher: PokemonDataSource {
             .build()
 
     private val retrofit = Retrofit.Builder()
-            //.client(client)
+            .client(client)
             .baseUrl("https://switter.app.daftmobile.com/")
-            //.addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
-
 
     private val pokemonApi = retrofit.create(PokemonApi::class.java)
 
-    //override fun fetch(onSuccess: (PokemonItem) -> Unit, onError: (String) -> Unit) {
-    //override fun fetch(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
-    override fun fetch(onSuccess: (String) -> Unit, onError: (String) -> Unit, id: Int) {
+    override fun fetch(onSuccess: (Pokemon) -> Unit, onError: (String) -> Unit, id: Int) {
         val call = pokemonApi.getPokemon(id)
-//        call.enqueue(object : Callback<PokemonItem> {
-//
-//            override fun onFailure(call: Call<PokemonItem>, t: Throwable) {
-//                onError(t.message ?: "No message")
-//            }
-//
-//            override fun onResponse(call: Call<PokemonItem>, response: Response<PokemonItem>) {
-//                if (response.isSuccessful) {
-//                    onSuccess(response.body()!!)
-//                } else {
-//                    onError("Serwer zwrócił: ${response.code()}")
-//                }
-//            }
-//        })
-        call.enqueue(object : Callback<ResponseBody> {
+        call.enqueue(object : Callback<Pokemon> {
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
                 onError(t.message ?: "No message")
             }
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            override fun onResponse(call: Call<Pokemon>, response: Response<Pokemon>) {
                 if (response.isSuccessful) {
-                    onSuccess(response.body()?.string() ?: "Weird empty response")
+                    onSuccess(response.body() ?: return onError("Weird empty response"))
                 } else {
                     onError("Serwer zwrócił: ${response.code()}")
                 }
             }
         })
-
     }
 }

@@ -22,21 +22,13 @@ class MainActivity : AppCompatActivity() {
             viewModel.showPokemonInfo(pokedexIndexInput.text.toString())
             //showPokemonActivity(PokemonItem("1","Bulbasaur",8570017))
         }
-
-        //val liveData = PokemonLiveData()
-        //liveData.observe(this, Observer(this::updateView))
     }
 
-    //private fun showPokemonActivity(pokemon: PokemonItem?) {
-    private fun showPokemonActivity(pokemon: String?) {
+    private fun showPokemonActivity(pokemon: PokemonItem?) {
         if (pokemon == null) return
-        //TODO("Open new activity with data")
-        Toast.makeText(this, pokemon, Toast.LENGTH_LONG).show()
-//        val intent = Intent(this, PokemonActivity::class.java)
-//                .putExtra("pokemon", pokemon )
-//        startActivity(intent)
-
-        //Toast.makeText(this, pokemon, Toast.LENGTH_LONG).show()
+        val intent = Intent(this, PokemonActivity::class.java)
+                .putExtra("pokemon", pokemon )
+        startActivity(intent)
     }
 
     private fun showError(message: String?) {
