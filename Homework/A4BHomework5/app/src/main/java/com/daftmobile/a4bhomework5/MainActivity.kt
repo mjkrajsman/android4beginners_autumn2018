@@ -2,6 +2,7 @@ package com.daftmobile.a4bhomework5
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -19,12 +20,23 @@ class MainActivity : AppCompatActivity() {
 
         showInfoButton.setOnClickListener {
             viewModel.showPokemonInfo(pokedexIndexInput.text.toString())
+            //showPokemonActivity(PokemonItem("1","Bulbasaur",8570017))
         }
+
+        //val liveData = PokemonLiveData()
+        //liveData.observe(this, Observer(this::updateView))
     }
 
-    private fun showPokemonActivity(pokemon: PokemonItem?) {
+    //private fun showPokemonActivity(pokemon: PokemonItem?) {
+    private fun showPokemonActivity(pokemon: String?) {
         if (pokemon == null) return
-        TODO("Open new activity with data")
+        //TODO("Open new activity with data")
+        Toast.makeText(this, pokemon, Toast.LENGTH_LONG).show()
+//        val intent = Intent(this, PokemonActivity::class.java)
+//                .putExtra("pokemon", pokemon )
+//        startActivity(intent)
+
+        //Toast.makeText(this, pokemon, Toast.LENGTH_LONG).show()
     }
 
     private fun showError(message: String?) {
