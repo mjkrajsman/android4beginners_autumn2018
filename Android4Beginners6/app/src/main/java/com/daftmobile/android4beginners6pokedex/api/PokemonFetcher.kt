@@ -59,6 +59,7 @@ class PokemonFetcher {
     companion object {
         const val API_BASE_URL = "https://switter.app.daftmobile.com/"
         val HTTP_CLIENT: OkHttpClient by lazy {
+            //Settings.Secure.ANDROID_ID -> losowy ciag znakow - wlasna wersja
             OkHttpClient.Builder()
                     .addInterceptor(HeaderInterceptor(mapOf("x-device-uuid" to Settings.Secure.ANDROID_ID)))
                     .build()

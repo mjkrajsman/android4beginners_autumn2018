@@ -17,15 +17,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: PokedexViewModel by lazy { ViewModelProviders.of(this).get(PokedexViewModel::class.java) }
-    // TODO create Adapter
+    // create Adapter
+    private val adapter by lazy { PokemonAdapter(emptyList(), this::showPokemonActivity)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupPicasso()
-        // TODO hook adapter
+
+        // hook adapter
+        pokedexRecyclerView.adapter = adapter
+
         viewModel.pokemonList().observe(this, Observer(this::updatePokemonList))
         viewModel.error().observe(this, Observer(this::showError))
+        viewModel.loaderState().observe(this, Observer(this::setLoaderState))
         viewModel.refresh()
     }
 
@@ -36,7 +41,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun updatePokemonList(pokemonList: List<PokemonItem>?) {
         if (pokemonList == null) return
-        // TODO update adapter
+
+        // update adapter
+        adapter.items = pokemonList
+        adapter.notifyDataSetChanged()
+
+    }
+
+    private fun setLoaderState(isVisible: Boolean?) {
+        if (isVisible == null) return
+        pokedexLoader.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun showPokemonActivity(pokemon: PokemonItem) {

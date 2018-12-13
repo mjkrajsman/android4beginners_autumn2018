@@ -13,5 +13,17 @@ class PokemonAdapter(
     var items: List<PokemonItem>,
     private val onItemClicked: (PokemonItem) -> Unit
 ): RecyclerView.Adapter<PokemonViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
+        //1) inflate view 2) stworzyc viewholder
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.pokemon_recycler_view_item, parent, false)
+        //co dodać, gdzie dodać, czy dołączyć do parenta - nie, bo robi to recyclerview
+        return PokemonViewHolder(view)
+    }
+
+    override fun getItemCount() = items.size
+
+    override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
+        holder.bindItem(items[position], onItemClicked)
+    }
     // TODO implement adapter
 }

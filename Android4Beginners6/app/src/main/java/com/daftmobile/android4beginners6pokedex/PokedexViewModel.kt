@@ -14,15 +14,20 @@ class PokedexViewModel: ViewModel() {
     private val pokemonLiveData = MutableLiveData<List<PokemonItem>>()
     private val errorLiveData = MutableLiveData<String>()
     // TODO: loader
+    private val loaderLiveData = MutableLiveData<Boolean>()
 
     fun pokemonList(): LiveData<List<PokemonItem>> = pokemonLiveData
+    fun loaderState(): LiveData<Boolean> = loaderLiveData
     fun error(): LiveData<String> = errorLiveData
 
     fun refresh() {
+        loaderLiveData.value = true
         pokemonFetcher.fetchAll({
             pokemonLiveData.value = it.map { PokemonItem(it) }
+            loaderLiveData.value = false
         }, {
             errorLiveData.setValue(it)
+            loaderLiveData.value = false
         })
     }
 
